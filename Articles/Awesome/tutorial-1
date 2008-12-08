@@ -1,0 +1,334 @@
+tags: awesome, tutorial
+log: true
+toc: true
+
+
+= 今日からはじめる awesome チュートリアル =
+今日からあなたも awesome で快適なウインドウマネージャ生活！
+
+== awesome とは ==
+http://awesome.naquadah.org/
+
+Debian 開発者でもある Julien Danjou が 2007 年から dwm をベースに開発を開始した tiling window manager (タイル型ウインドウマネージャ) です。
+現在ではベースとなった dwm のかけらもありません。(その証拠にトップページには dwm の文字すら登場しません)
+タイル型ウインドウマネージャの一般的な特徴は http://sourceforge.jp/projects/tilingwm/wiki/FrontPage を参照してください。
+
+主な特徴としては、たくさんの freedesktop.org の標準を実装していることです。これにより、システムトレイに格納されるアプリケージョンも問題なく動作します。
+また、XRandR, Xinerama もサポートしているので、マルチディスプレイ環境でも問題なく動きます。
+マイナーを狙っているように見えて、このように標準と最新機能を実装していることも特徴です。
+
+開発は [http://git.naquadah.org/?p=awesome.git;a=summary Git で行なわれています]。Julien はなんでも accept してくれるので、開発は今も活発です。(たとえば、 autotools から cmake に移行したり)
+
+== awesome をインストールする ==
+awesome はその活発な開発と登場して間もないことから、ディストリビューションのパッケージがない、もしくは古いことがあります。特に今から awesome 2.x を使うことはまったくの無駄骨なので、ディストリビューションに awesome 2.x のパッケージがあってもインストールするのはやめましょう。3.xを待つか、自分でビルドしましょう。
+
+(awesome 2.x と 3.x では操作体系はかわりませんが、設定ファイルと機能が大幅に異なるため、継続的に使うには 2.x は古すぎます)
+
+=== Debian ===
+Julien が Debian 開発者もあって、彼自身がパッケージングしています。ただし、 3.x はまだ experimental です。http://packages.debian.org/experimental/awesome
+
+このパッケージを使うか、または依存関係だけ満たし、awesome そのものはソースからビルドするかはお任せします。
+rcはまだバグがあったりするので、ソースからビルドすることをお勧めします。また、依存しているパッケージでも etch ではバージョンが古い場合もあるため、インストールは苦労するかもしれません。
+
+=== Ubuntu ===
+Ubuntu でも状況は Debian と同じです。
+
+=== Gentoo ===
+Gentoo では最新リリースが Portage ツリーに入っています。依存パッケージの一部はまだ mask されているため、外す必要があります。
+
+overlays には awesome の Git リポジトリからビルドする [http://git.overlays.gentoo.org/gitweb/?p=dev/matsuu.git;a=tree;f=x11-wm/awesome;h=f555c95efdccd85d0958da876ef1345b718d6eae;hb=HEAD ebuild もあります]。
+
+=== ソースからビルドする ===
+Ubuntu 8.10 環境で最新の awesome をビルドする方法を解説します。応用すれば Debian でも可能だと思われます。Ubuntuのインストールから解説すると長いので、Ubuntuのインストールされた環境からスタートします。
+
+必要なパッケージを入れます。
+
+{{{
+ # aptitude install cmake build-essential m4 gperf libimlib2-dev libcairo2-dev libev-dev libglib1.2-dev libxcb-randr0-dev libxcb-shm0-dev
+ # aptitude install libxcb-xinerama0-dev libxcb1-dev libpango1.0-dev libx11-xcb-dev libreadline5-dev liblua5.1-0-dev
+}}}
+
+xcb-util だけはソースからビルドします。
+
+{{{
+ $ mkdir src && cd src
+ $ wget http://xcb.freedesktop.org/dist/xcb-util-0.3.1.tar.gz
+ $ tar zxvf xcb-util-0.3.1.tar.gz
+ $ cd xcb-util-0.3.1
+ $ ./configure && make
+ $ sudo make install
+ $ sudo ldconfig
+}}}
+
+ここで、awesome の リリース版を取得します。
+
+{{{
+ $ cd ..
+ $ wget http://awesome.naquadah.org/download/awesome-3.1-rc4.tar.bz2 
+ $ tar jxvf awesome-3.1-rc4.tar.bz2
+ $ cd awesome-3.1-rc4
+ $ make
+ $ sudo make install
+}}}
+
+最後に xsession を用意します。すでに自前の xsession を持っている人は適宜マージしてください。
+
+{{{
+ $ cat ~/.xsession
+exec /usr/local/bin/awesome
+}}}
+
+準備できたら、再ログインします。その際、ログイン時のセッションを Run Xclient script にしてください。
+
+= awesome を使ってみる =
+準備に時間がかかりましたが、ここからが本番です。このチュートリアルを印刷するか、もしくは別のパソコンで開いて、見ながら試してください。VMwareやVirtualBoxで仮想化環境でawesomeを試すのもいいと思います。ログイン後に、背景画像についてのエラーが出る場合がありますが、無害なので、okayを押してとりあえず無視してください。
+
+== Mod4 キー ==
+awesome のキーバインドの prefix は Mod4 キーです。通常、このキーは左側の Windows キー、または Command キーです。この設定は当然のように変更できますが、awesome 側は Mod4 のままで、
+xmodmap で特定のキーを Mod4 に変更するのが得策です。スペースキーの左隣りが無変換キーの人は
+
+{{{
+ $ xmodmap -e 'keysym Muhenkan = Super_L'
+}}}
+
+で、無変換キーを左の Windows キーに割当てられます。
+
+== Lesson 1: ターミナルを起動しよう ==
+まず、terminalを起動しましょう。まだ未設定なので、ここでは xterm が起動します。
+
+ * Mod4-Return (terminal を起動する)
+
+ウインドウが最大状態で表われたと思います。ここで、
+
+{{{
+ $ date | less
+}}}
+
+を実行して時刻を記録しておきましょう。もう1つターミナルを起動しましょう。
+
+ * Mod4-Return (terminal を起動する)
+
+初めに開いたウインドウがどうなったかを確認してください。そして、ここでももう1度 `date | less' を実行してください。
+このとき、どのウインドウにフォーカスが当たったかを確認してください。新しいウインドウにフォーカスが移動しているはずです。
+また、ウインドウは縦に分割されたはずです。古いウインドウがどこに移動したかも確認してください。右へ移動したはずです。
+
+では、しつこいですが、もう1度ターミナルを起動します。
+
+ * Mod4-Return (terminal を起動する)
+
+同じく、`date | less' を実行し、どのようになったか確認してください。一番古いウインドウは右下へ移動しているはずです。また、一番新しいウインドウは常に左側に1つだけ出ることも
+確認してください。この左側の領域を'''マスター'''と呼び、対して右側を'''スレーブ'''と言います。作業領域が一番広いのがマスターです。通常はこのマスター領域で作業します。
+
+例として、awesome の Git バージョンのビルド環境を用意してみましょう。
+
+== Lesson 2: ウインドウの操作 ==
+まず、マスターのウインドウで q を押し、lessから抜けます。しばらくここで作業を行います。まず、git と ドキュメント用に asciidoc, xmlto をインストールします。texlive 系パッケージの依存で、大量のパッケージがインストールされます。
+
+{{{
+ # aptitude install git-core asciidoc xmlto
+ $ cd src
+ $ git clone git://git.naquadah.org/awesome.git
+ $ cd awesome
+}}}
+
+これで awesome の Git リポジトリが clone できました。念のためrc4からの変更点を確認しましょう。
+
+{{{
+ $ git log v3.1-rc4..master
+}}}
+
+特に互換性を壊すような変更はなさそうです(リリース前なので)。ではビルドしましょう。
+
+{{{
+ $ make
+ $ sudo make install
+}}}
+
+さて、ここからは awesome の設定ファイルをカスタマイズしてみましょう。とにもかくにも、terminal に xterm を使っている人は少数派だと思われるので、そこからカスタマイズしましょう。
+
+デフォルトの設定ファイルは /etc/xdg/awesome/rc.lua にコピーされます。拡張子からもわかるように、設定ファイルは [http://www.lua.org/ Lua] を使っています。Lua は軽量でアプリケーションの拡張用言語(アプリケーションそのものに組み込まれる)として広く使われています。
+awesome は 2.x 時代は confuse などを使っていましたが、拡張性の限界が見え、設定ファイルの書式を拡張するか、awesomeでがんばるか、という場面で [http://article.gmane.org/gmane.comp.window-managers.awesome/1794/match=lua Julien は Lua を使う選択を下しました]。
+
+ユーザにとって負担が大きくなるという考えもあったようですが、Luaは軽量(プログラム的にという意味と学習コスト的にという意味)で結果的にLuaを選択したことは正しかったように思えます。
+
+Luaを採用後はしばらく API がころころと代わり、そのたびに rc.lua も追随する必要がありました。しかし、3.1では Freedesktop の標準の実装も安定しており、しばらくは 3.1 で安住できると思われます。
+
+Lua 採用の経緯はこのくらいにして、カスタマイズに移ります。
+
+{{{
+ $ mkdir -p ~/.config/awesome
+ $ cp /etc/xdg/awesome/rc.lua ~/.config/awesome/
+}}}
+
+ユーザ用の設定ファイルは ~/.config/awesome/rc.lua になります。
+
+{{{
+ $ vi ~/.config/awesome/rc.lua
+}}}
+
+ここで、マスターの領域が少し狭いと感じた方はウインドウを広げてみましょう。
+
+ * Mod4-l (フォーカスのあるウインドウのサイズを増加させる)
+
+1つ押すとある単位でウインドウが伸びます。広げすぎた場合は
+
+ * Mod4-h (フォーカスのあるウインドウのサイズを減少させる)
+
+
+これがウインドウサイズを変える方法です。この操作は頻出なので体に覚えさせましょう。適当なサイズにできたら、編集に戻ります。
+
+では、まず16行目の terminal を修正しましょう。私は "mlterm --sb=false" にしています(sb; scroll bar)。Ubuntu 系の人は "gnome-terminal" などがいいでしょう。
+
+基本的にはこれで十分ですが、上部右に注目してください。よくわからない数字がインクリメントされていると思います。これは Unix time です。Julien はこれが好きなようですが、我々は普段見なれていないのでこれも元に戻します。
+
+os.date() で検索してください。おそらく、一番下にあると思います。 os.time() の行をコメントアウトし、代わりに os.date() の行を有効にします。
+(Lua のコメントアウトは -- です)
+
+修正したら、awesomeを再起動します。
+
+ * 上部一番左の a マークをクリック→awesome→restart
+
+再起動するとウインドウサイズやフォーカスが元に戻ります。terminalも再設定したことなので、一旦すべて閉じましょう。マスターのviを終了してください。ターミナルであれば、 exit や C-d で閉じれますが、ここでは awesome 的な閉じ方を学びます。
+
+ * Mod-Shift-c (フォーカスのあるウインドウを終了する)
+
+アプリケーションは基本的にこのキーバインドで閉じます。3つのウインドウすべてを同様にして閉じましょう。
+
+改めて terminal を起動します。そして、練習をかねて、ここからは awesome 内で Firefox を立ち上げ、このページを見ながら操作してみましょう。このページのアドレスは http://tinyurl.com/6mlprz になります。
+
+awesome 3.x からはランチャが内蔵されているので、
+
+ * Mod4-F1 (awesome 内蔵のランチャを起動する)
+
+上部のタグ一覧の右に Run: というプロンプトが出ていることを確認してください。ここで firefox を入力し、Returnを押します。(ちなみに、tabで補完もできます)
+
+……では、awesome 内の Firefox からこのページを再び開いていただけだと思いますので、再開しましょう :-)。
+(ただし、説明の都合上、最後まで紙などを併用してください…)
+
+== Lesson 3: タグを使う ==
+上部左に数字が並んでいるのを確認してください。1から9の9つのタグがあらかじめ用意されています。タグは Gnome や KDE で言うワークスペースです。
+ワークスペースと異なるのはそれぞれがマージできるという点です。たとえば、タグ1番と3番を表示する、またはタグ1、2、3、4を表示するなどです。
+
+ブラウザは大きく見たい時と、ブラウザを参照しながらマスターで作業をしたい時のどちらにも対応できるように、ブラウザ専用のタグを決めます。ここでは、2番のタグをブラウザ専用とします。
+
+今のタグは1番であることを確認した上で、
+
+ * Mod4-Shift-2 (フォーカスのあるウインドウを2番のタグへ移動する)
+
+Firefox が消え、ウインドウがなにもなくなったことを確認してください。Firefox がきちんと2番のタグに移動したかを確認しましょう。
+
+ * Mod4-2 (2番のタグへ移動する)
+
+Firefox が現われたはずです。ほっとしたところで、もとのタグへ戻りましょう。
+
+ * Mod4-Esc (ひとつ前のタグへ移動する) または
+ * Mod4-1 (1番のタグへ移動する)
+
+どちらも結果は同じです。そろそろ、キーバインドを追加したくてうずうずしている人はここで設定してみましょう。terminal を開きます。
+
+ * Mod4-Return (terminal を起動する)
+
+さて、ここからブラウザを見ながら作業をしたいと思います。この機能はとても重要なので体に覚えさせましょう。
+
+ * Mod4-Ctrl-2 (今のタグと2番のタグを'''一時的に'''マージ(合併)する)
+
+ブラウザがあらわれたはずです。フォーカスを移動する手段をまだ伝えていませんでした。フォーカスの移動は
+
+ * Mod4-j (次のウインドウへフォーカスを移動する)
+ * Mod4-k (前のウインドウへフォーカスを移動する)
+
+Firefox と terminal でフォーカスを移動して、きちんと移動しているか確認してください。
+
+フォーカスを terminal にして
+
+{{{
+ $ man awesomerc
+}}}
+
+とすると、設定ファイルに関する man が読めま……と思ったらまだ整備されていないようです。Luaを使っているので直接読めということでしょうか。とりあえず、manを閉じて、再び rc.lua を開きます。
+
+{{{
+ $ vi ~/.config/awesome/rc.lua
+}}}
+
+設定ファイルについては、 [http://awesome.naquadah.org/wiki/index.php?title=Awesome_3_configuration Wiki] にまとまっています。各用語について定義されているので、一通り目を通してください。
+
+keybinding で検索してください。見ればなんとなくわかると思います。たとえば、これまでに使用したキーバインドは以下のように定義されています。
+
+{{{
+keybinding({ modkey }, "Return", function () awful.util.spawn(terminal .. " -L") end):add()
+keybinding({ modkey }, "j", function () awful.client.focus.byidx(1); client.focus:raise() end):add()
+keybinding({ modkey }, "k", function () awful.client.focus.byidx(-1);  client.focus:raise() end):add()
+keybinding({ modkey }, "l", function () awful.tag.incmwfact(0.05) end):add()
+keybinding({ modkey }, "h", function () awful.tag.incmwfact(-0.05) end):add()
+}}}
+
+1行目の terminal の部分は私が一部変更しています(ログインシェルを使うようにしている)。第1引数が修飾キーで、第2引数がそれに対応するキーです。そして、第3引数が実行される関数です。基本的な操作は awful というライブラリにまとめられています。
+
+特定のコマンドを起動させたい場合は awful.util.spawn(command) を使います。1つ例を挙げると、
+
+{{{
+keybinding({ modkey, "Control" }, "m", function () awful.util.spawn("/home/nabeken/bin/twitter-update.sh") end):add()
+}}}
+
+これを設定すると Mod4+Ctrl+m で今 amarok で聞いている音楽を twitter へポストしてくれます。http://blog.guillermoamaral.com/2007/03/18/twitter-amarok-update/
+
+カスタマイズが特に必要ない人は先に進みましょう。
+
+== Lesson 4: Tutorial 1 のまとめ ==
+ここまでで、たどたどしですが、なんとか使えるようになったはずです。しかし、あと1つ教えなければならないことがあります。
+それはウインドウの入れ替えです。
+
+これにはいくつか方法があります。今、terminal がマスターとします。Firefox をマスターにしたい時は、まずフォーカスを Firefox へあわせ、
+
+ * Mod4-Ctrl-Return (フォーカスのあるウインドウをマスターへ移動する)
+
+これで Firefox がマスターに移動したはずです。また、フォーカスも Firefox にあることを確認してください。
+
+もう1つの方法は手動で入れ替える方法です。わかりやすくするために、もう1つ terminal を起動させましょう。
+
+ * Mod4-Return (terminal を起動する)
+
+ウインドウが3つになり、新たに起動した terminal がマスターに来たはずです。では、ここで
+
+ * Mod4-Shift-j (フォーカスのあるウインドウを次のウインドウと入れ替える)
+
+をすると、terminal と Firefox が入れ替わったと思います。そして、フォーカスは terminal のままのはずです。では、もう1度するとどうなるでしょうか。
+
+ * Mod4-Shift-j (フォーカスのあるウインドウを次のウインドウと入れ替える)
+
+次はそのとなりのターミナルと入れ替わり、新たに起動した terminal は右下に移動したはずです。では、もう1度するとどうなるか考えてみましょう。
+
+はい、最初の位置、つまりマスターへ戻ります。これと逆方向の操作が
+
+ * Mod4-Shift-k (フォーカスのあるウインドウを前のウインドウと入れ替える)
+
+結果はそれぞれで試してみてください。これでとりあえず使うには問題ないはずです。今日の操作をまとめましょう。
+
+=== 操作のまとめ ===
+
+ * Mod4-Return (terminal を起動する)
+ * Mod-Shift-c (フォーカスのあるウインドウを終了する)
+ * Mod4-j (次のウインドウへフォーカスを移動する)
+ * Mod4-k (前のウインドウへフォーカスを移動する)
+ * Mod4-Ctrl-Return (フォーカスのあるウインドウをマスターへ移動する)
+ * Mod4-h (フォーカスのあるウインドウのサイズを減少させる)
+ * Mod4-l (フォーカスのあるウインドウのサイズを増加させる)
+ * Mod4-1 (1番のタグへ移動する)
+ * Mod4-2 (2番のタグへ移動する)
+ * Mod4-Ctrl-2 (今のタグと2番のタグを'''一時的に'''マージ(合併)する)
+ * Mod4-Esc (ひとつ前のタグへ移動する) または
+ * Mod4-Shift-2 (フォーカスのあるウインドウを2番のタグへ移動する)
+ * Mod4-Shift-j (フォーカスのあるウインドウを次のウインドウと入れ替える)
+ * Mod4-Shift-k (フォーカスのあるウインドウを前のウインドウと入れ替える)
+ * Mod4-F1 (awesome 内蔵のランチャを起動する)
+
+= Tutorial 2 の予定 =
+awesome にはまだまだ機能があります。設定ファイルを読むとまだまだしらない機能があることがわかると思います。
+
+ * Layout - 今回、ウインドウの配置はマスターが左側にくるものでした。実はマスターが右、下、上にくるものもあります。これらの配置方法を定めているのが layout という仕組みです。
+ * Floating - Mplayer や gimp などのアプリケーションと awesome は一般的に相性が悪いです。Mplayer はファイルによってウインドウサイズを替えたりするためです。そのため、特定のアプリケーション、または layout としてこれまでの従来のウインドウマネーと同じ動作モードがあります。それが Floating です。
+ * Widget - 時計、タスクバー、システムトレイは Widget という仕組みで管理されています。これは自由に組合せることができ、従来のタイル型ウインドウマネージャと awesome が一線を画く仕組みです。
+ * Theme - フォーカスのあるウインドウは外枠に線が見えると思います。また、タスクバーなどの色も自由変えることができます。これらの管理を beautiful ライブラリが担っています。外枠の色だけ変えたいという要求に答えることができる仕組みです。
+
+これらを次回のチュートリアルで紹介できればと思います。

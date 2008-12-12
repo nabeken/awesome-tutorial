@@ -27,19 +27,52 @@ awesome はその活発な開発と登場して間もないことから、ディ
 === Debian ===
 Julien が Debian 開発者もあって、彼自身がパッケージングしています。ただし、 3.x はまだ experimental です。http://packages.debian.org/experimental/awesome
 
-このパッケージを使うか、または依存関係だけ満たし、awesome そのものはソースからビルドするかはお任せします。
-rcはまだバグがあったりするので、ソースからビルドすることをお勧めします。また、依存しているパッケージでも etch ではバージョンが古い場合もあるため、インストールは苦労するかもしれません。
+このパッケージを lenny 用にビルドしなおし、インストールする方法を解説します。(thanks to [http://twitter.com/n_iwamatsu @n_iwamatsu])
+
+まず、パッケージ開発、xcb-util の[http://packages.debian.org/experimental/source/xcb-util ビルドに必要なパッケージ]をインストールします。
+
+{{{
+ # aptitude install cdbs debhelper devscripts
+ # aptitude install autotools-dev libxcb-render0-dev libxcb1-dev gperf pkg-config libxcb-shm0-dev m4 autoconf automake libtool x11proto-core-dev 
+}}}
+
+次に、xcb-utilのパッケージを experimental から持ってきます。
+
+{{{
+ $ mkdir src && cd src
+ $ dget http://ftp.de.debian.org/debian/pool/main/x/xcb-util/xcb-util_0.3.1-2.dsc
+ $ cd xcb-util-0.3.1
+ $ dpkg-buildpackage
+}}}
+
+できあがったものをインストールします。
+
+{{{
+ $ cd ..
+ # dpkg -i *.deb
+ # mkdir debs && mv *.deb debs/
+}}}
+
+次は awesome の[ビルドに必要なパッケージ http://packages.debian.org/experimental/source/awesome] をインストールします。
+
+{{{
+ # aptitude install libxcb-xinerama0-dev libxcb-randr0-dev libcairo2-dev xmlto asciidoc libpango1.0-dev cmake lua5.1 luadoc libreadline-dev libev-dev liblua5.1-dev libimlib2-dev libx11-xcb-dev
+ $ dget http://ftp.de.debian.org/debian/pool/main/a/awesome/awesome_3.1~rc5-1.dsc
+ $ cd awesome-3.1~rc5
+ $ dpkg-buildpackage
+ $ cd ..
+}}}
+
+同じく、できあがったものインストールします。
+
+{{{
+ # dpkg -i awesome_3.1~rc5-1_i386.deb
+}}}
+
+いったん、ログアウトすると、ログイン時に awesome のセッションが選べるようになっています。
 
 === Ubuntu ===
-Ubuntu でも状況は Debian と同じです。
-
-=== Gentoo ===
-Gentoo では最新リリースが Portage ツリーに入っています。依存パッケージの一部はまだ mask されているため、外す必要があります。
-
-overlays には awesome の Git リポジトリからビルドする [http://git.overlays.gentoo.org/gitweb/?p=dev/matsuu.git;a=tree;f=x11-wm/awesome;h=f555c95efdccd85d0958da876ef1345b718d6eae;hb=HEAD ebuild もあります]。
-
-=== ソースからビルドする ===
-Ubuntu 8.10 環境で最新の awesome をビルドする方法を解説します。応用すれば Debian でも可能だと思われます。Ubuntuのインストールから解説すると長いので、Ubuntuのインストールされた環境からスタートします。
+Ubuntu 8.10 環境で最新の awesome をビルドする方法を解説します。
 
 必要なパッケージを入れます。
 
@@ -79,6 +112,11 @@ exec /usr/local/bin/awesome
 }}}
 
 準備できたら、再ログインします。その際、ログイン時のセッションを Run Xclient script にしてください。
+
+=== Gentoo ===
+Gentoo では最新リリースが Portage ツリーに入っています。依存パッケージの一部はまだ mask されているため、外す必要があります。
+
+overlays には awesome の Git リポジトリからビルドする [http://git.overlays.gentoo.org/gitweb/?p=dev/matsuu.git;a=tree;f=x11-wm/awesome;h=f555c95efdccd85d0958da876ef1345b718d6eae;hb=HEAD ebuild もあります]。
 
 = awesome を使ってみる =
 準備に時間がかかりましたが、ここからが本番です。このチュートリアルを印刷するか、もしくは別のパソコンで開いて、見ながら試してください。VMwareやVirtualBoxで仮想化環境でawesomeを試すのもいいと思います。ログイン後に、背景画像についてのエラーが出る場合がありますが、無害なので、okayを押してとりあえず無視してください。
@@ -332,3 +370,7 @@ awesome にはまだまだ機能があります。設定ファイルを読むと
  * Theme - フォーカスのあるウインドウは外枠に線が見えると思います。また、タスクバーなどの色も自由変えることができます。これらの管理を beautiful ライブラリが担っています。外枠の色だけ変えたいという要求に答えることができる仕組みです。
 
 これらを次回のチュートリアルで紹介できればと思います。
+
+なお、本記事は github 上で公開しています。フィードバックがあれば編集、コミット後、pullリクエストをお願いします。(もちろん、指摘のみでも構いません)
+
+ * http://github.com/nabeken/awesome-tutorial/tree/master

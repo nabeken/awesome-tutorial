@@ -97,9 +97,9 @@ xcb-util だけはソースからビルドします。
 
 {{{
  $ cd ..
- $ wget http://awesome.naquadah.org/download/awesome-3.1-rc4.tar.bz2 
- $ tar jxvf awesome-3.1-rc4.tar.bz2
- $ cd awesome-3.1-rc4
+ $ wget http://awesome.naquadah.org/download/awesome-3.1-rc5.tar.bz2 
+ $ tar jxvf awesome-3.1-rc5.tar.bz2
+ $ cd awesome-3.1-rc5
  $ make
  $ sudo make install
 }}}
@@ -157,32 +157,12 @@ xmodmap で特定のキーを Mod4 に変更するのが得策です。スペー
 同じく、`date | less' を実行し、どのようになったか確認してください。一番古いウインドウは右下へ移動しているはずです。また、一番新しいウインドウは常に左側に1つだけ出ることも
 確認してください。この左側の領域を'''マスター'''と呼び、対して右側を'''スレーブ'''と言います。作業領域が一番広いのがマスターです。通常はこのマスター領域で作業します。
 
-例として、awesome の Git バージョンのビルド環境を用意してみましょう。
+awesome の設定を編集しながら基本操作を覚えましょう。
 
 == Lesson 2: ウインドウの操作 ==
-まず、マスターのウインドウで q を押し、lessから抜けます。しばらくここで作業を行います。まず、git と ドキュメント用に asciidoc, xmlto をインストールします。texlive 系パッケージの依存で、大量のパッケージがインストールされます。
+まず、マスターのウインドウで q を押し、lessから抜けます。しばらくここで作業を行います。 
 
-{{{
- # aptitude install git-core asciidoc xmlto
- $ cd src
- $ git clone git://git.naquadah.org/awesome.git
- $ cd awesome
-}}}
-
-これで awesome の Git リポジトリが clone できました。念のためrc4からの変更点を確認しましょう。
-
-{{{
- $ git log v3.1-rc4..master
-}}}
-
-特に互換性を壊すような変更はなさそうです(リリース前なので)。ではビルドしましょう。
-
-{{{
- $ make
- $ sudo make install
-}}}
-
-さて、ここからは awesome の設定ファイルをカスタマイズしてみましょう。とにもかくにも、terminal に xterm を使っている人は少数派だと思われるので、そこからカスタマイズしましょう。
+とにもかくにも、terminal に xterm を使っている人は少数派だと思われるので、そこからカスタマイズしましょう。
 
 デフォルトの設定ファイルは /etc/xdg/awesome/rc.lua にコピーされます。拡張子からもわかるように、設定ファイルは [http://www.lua.org/ Lua] を使っています。Lua は軽量でアプリケーションの拡張用言語(アプリケーションそのものに組み込まれる)として広く使われています。
 awesome は 2.x 時代は confuse などを使っていましたが、拡張性の限界が見え、設定ファイルの書式を拡張するか、awesomeでがんばるか、という場面で [http://article.gmane.org/gmane.comp.window-managers.awesome/1794/match=lua Julien は Lua を使う選択を下しました]。

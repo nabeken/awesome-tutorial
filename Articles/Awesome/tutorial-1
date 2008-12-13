@@ -97,9 +97,9 @@ xcb-util だけはソースからビルドします。
 
 {{{
  $ cd ..
- $ wget http://awesome.naquadah.org/download/awesome-3.1-rc5.tar.bz2 
- $ tar jxvf awesome-3.1-rc5.tar.bz2
- $ cd awesome-3.1-rc5
+ $ wget http://awesome.naquadah.org/download/awesome-3.1.tar.bz2 
+ $ tar jxvf awesome-3.1.tar.bz2
+ $ cd awesome-3.1
  $ make
  $ sudo make install
 }}}

@@ -13,11 +13,11 @@ Debian 開発者でもある Julien Danjou が 2007 年から dwm をベース�
 現在ではベースとなった dwm のかけらもありません。(その証拠にトップページには dwm の文字すら登場しません)
 タイル型ウインドウマネージャの一般的な特徴は http://sourceforge.jp/projects/tilingwm/wiki/FrontPage を参照してください。
 
-主な特徴としては、たくさんの freedesktop.org の標準を実装していることです。これにより、システムトレイに格納されるアプリケージョンも問題なく動作します。
+主な特徴としては、たくさんの Freedesktop.org の標準を実装していることです。これにより、システムトレイに格納されるアプリケージョンも問題なく動作します。
 また、XRandR, Xinerama もサポートしているので、マルチディスプレイ環境でも問題なく動きます。
-マイナーを狙っているように見えて、このように標準と最新機能を実装していることも特徴です。
+マイナーを狙っているように見えて、このように標準と最新機能を実装していることが特徴です。
 
-開発は [http://git.naquadah.org/?p=awesome.git;a=summary Git で行なわれています]。Julien はなんでも accept してくれるので、開発は今も活発です。(たとえば、 autotools から cmake に移行したり)
+開発は [http://git.naquadah.org/?p=awesome.git;a=summary Git で行なわれています]。Julien はなんでも accept してくれるので、開発は今も活発です。
 
 == awesome をインストールする ==
 awesome はその活発な開発と登場して間もないことから、ディストリビューションのパッケージがない、もしくは古いことがあります。特に今から awesome 2.x を使うことはまったくの無駄骨なので、ディストリビューションに awesome 2.x のパッケージがあってもインストールするのはやめましょう。3.xを待つか、自分でビルドしましょう。
@@ -165,7 +165,7 @@ awesome の設定を編集しながら基本操作を覚えましょう。
 とにもかくにも、terminal に xterm を使っている人は少数派だと思われるので、そこからカスタマイズしましょう。
 
 デフォルトの設定ファイルは /etc/xdg/awesome/rc.lua にコピーされます。拡張子からもわかるように、設定ファイルは [http://www.lua.org/ Lua] を使っています。Lua は軽量でアプリケーションの拡張用言語(アプリケーションそのものに組み込まれる)として広く使われています。
-awesome は 2.x 時代は confuse などを使っていましたが、拡張性の限界が見え、設定ファイルの書式を拡張するか、awesomeでがんばるか、という場面で [http://article.gmane.org/gmane.comp.window-managers.awesome/1794/match=lua Julien は Lua を使う選択を下しました]。
+awesome は 2.x 時代は confuse などを使っていましたが、拡張性の限界が見えきたため、[http://article.gmane.org/gmane.comp.window-managers.awesome/1794/match=lua Julien は Lua を使う選択を下しました]。
 
 ユーザにとって負担が大きくなるという考えもあったようですが、Luaは軽量(プログラム的にという意味と学習コスト的にという意味)で結果的にLuaを選択したことは正しかったように思えます。
 
@@ -290,8 +290,6 @@ keybinding({ modkey, "Control" }, "m", function () awful.util.spawn("/home/nabek
 }}}
 
 これを設定すると Mod4+Ctrl+m で今 amarok で聞いている音楽を twitter へポストしてくれます。http://blog.guillermoamaral.com/2007/03/18/twitter-amarok-update/
-
-カスタマイズが特に必要ない人は先に進みましょう。
 
 == Lesson 4: Tutorial 1 のまとめ ==
 ここまでで、たどたどしですが、なんとか使えるようになったはずです。しかし、あと1つ教えなければならないことがあります。

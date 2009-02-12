@@ -159,7 +159,7 @@ xmodmap で特定のキーを Mod4 に変更するのが得策です。スペー
 
 awesome の設定を編集しながら基本操作を覚えましょう。
 
-== Lesson 2: ウインドウの操作 ==
+== Lesson 2: ウインドウサイズの制御 ==
 まず、マスターのウインドウで q を押し、lessから抜けます。しばらくここで作業を行います。 
 
 とにもかくにも、terminal に xterm を使っている人は少数派だと思われるので、そこからカスタマイズしましょう。
@@ -291,7 +291,7 @@ keybinding({ modkey, "Control" }, "m", function () awful.util.spawn("/home/nabek
 
 これを設定すると Mod4+Ctrl+m で今 amarok で聞いている音楽を twitter へポストしてくれます。http://blog.guillermoamaral.com/2007/03/18/twitter-amarok-update/
 
-== Lesson 4: Tutorial 1 のまとめ ==
+== Lesson 4: ウインドウの移動 ==
 ここまでで、たどたどしですが、なんとか使えるようになったはずです。しかし、あと1つ教えなければならないことがあります。
 それはウインドウの入れ替えです。
 
@@ -321,7 +321,7 @@ keybinding({ modkey, "Control" }, "m", function () awful.util.spawn("/home/nabek
 
 結果はそれぞれで試してみてください。これでとりあえず使うには問題ないはずです。今日の操作をまとめましょう。
 
-=== 操作のまとめ ===
+== Lesson 5: Tutorial 1 のまとめ ==
 
  * Mod4-Return (terminal を起動する)
  * Mod4-Shift-c (フォーカスのあるウインドウを終了する)

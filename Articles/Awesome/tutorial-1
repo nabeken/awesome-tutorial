@@ -72,22 +72,22 @@ Julien が Debian 開発者もあって、彼自身がパッケージングし�
 いったん、ログアウトすると、ログイン時に awesome のセッションが選べるようになっています。
 
 === Ubuntu ===
-Ubuntu 8.10 環境で最新の awesome をビルドする方法を解説します。
+Ubuntu 9.04 環境で最新の awesome (3.2.1) をビルドする方法を解説します。
 
 必要なパッケージを入れます。
 
 {{{
  # aptitude install cmake build-essential m4 gperf libimlib2-dev libcairo2-dev libev-dev libglib1.2-dev libxcb-randr0-dev libxcb-shm0-dev
- # aptitude install libxcb-xinerama0-dev libxcb1-dev libpango1.0-dev libx11-xcb-dev libreadline5-dev liblua5.1-0-dev
+ # aptitude install libxcb-xinerama0-dev libxcb1-dev libpango1.0-dev libx11-xcb-dev libreadline5-dev liblua5.1-0-dev libxcb-xtest0-dev
 }}}
 
 xcb-util だけはソースからビルドします。
 
 {{{
  $ mkdir src && cd src
- $ wget http://xcb.freedesktop.org/dist/xcb-util-0.3.1.tar.gz
- $ tar zxvf xcb-util-0.3.1.tar.gz
- $ cd xcb-util-0.3.1
+ $ wget http://xcb.freedesktop.org/dist/xcb-util-0.3.3.tar.gz
+ $ tar zxvf xcb-util-0.3.3.tar.gz
+ $ cd xcb-util-0.3.3
  $ ./configure && make
  $ sudo make install
  $ sudo ldconfig
@@ -97,14 +97,14 @@ xcb-util だけはソースからビルドします。
 
 {{{
  $ cd ..
- $ wget http://awesome.naquadah.org/download/awesome-3.1.tar.bz2 
- $ tar jxvf awesome-3.1.tar.bz2
- $ cd awesome-3.1
+ $ wget http://awesome.naquadah.org/download/awesome-3.2.1tar.bz2 
+ $ tar jxvf awesome-3.2.1.tar.bz2
+ $ cd awesome-3.2.1
  $ make
  $ sudo make install
 }}}
 
-最後に xsession を用意します。すでに自前の xsession を持っている人は適宜マージしてください。
+最後に xsession を用意します。すでに自前の xsession を持っている人は適宜マージしてください。(nm-appletも起動しておかないとネットワークにつながりません…)
 
 {{{
  $ cat ~/.xsession
